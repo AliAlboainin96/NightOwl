@@ -1,12 +1,8 @@
 // proj.rs: Manages the inputted data; Contains project struct to define and create new "projects"
 
-use serde::{Deserialize, Serialize};
 use std::fs::File;
 use std::fs::OpenOptions;
 use std::io::prelude::*;
-
-
-#[derive(Debug, Deserialize, Serialize)]
 
 pub struct project {
     pub project:     String,
@@ -27,18 +23,4 @@ impl project {
         println!("ID: {}", self.id);
 
     }
-
-    pub fn WriteToJSON(&self) -> std::io::Result<()> {
-        //let proj_obj = serde_json::from_str(raw_obj).unwrap();
-        let mut File = OpenOptions::new()
-            .read(true)
-            .append(true)
-            .create(true)
-            .open("data.json")
-            .unwrap();
-            
-        serde_json::to_writer_pretty(File, &self);
-        Ok(())
-    }
-
 }
