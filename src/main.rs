@@ -13,7 +13,7 @@ mod proj;
 
 fn main() { 
    let nightowl_json = proj::project {
-            project: "NightOwl".to_string(),
+            project: "MouseEditor".to_string(),
             author: "Ali".to_string(),
             description: "Project managment written in rust!".to_string(),
             language: "Rust".to_string(),

@@ -2,6 +2,7 @@
 
 use serde::{Deserialize, Serialize};
 use std::fs::File;
+use std::fs::OpenOptions;
 use std::io::prelude::*;
 
 
@@ -29,7 +30,14 @@ impl project {
 
     pub fn WriteToJSON(&self) -> std::io::Result<()> {
         //let proj_obj = serde_json::from_str(raw_obj).unwrap();
-        serde_json::to_writer_pretty(&File::create("data.json")?, &self);
+        let mut File = OpenOptions::new()
+            .read(true)
+            .append(true)
+            .create(true)
+            .open("data.json")
+            .unwrap();
+            
+        serde_json::to_writer_pretty(File, &self);
         Ok(())
     }
 
