@@ -1,3 +1,4 @@
+#![allow(unused_must_use)]
 #![allow(unused_imports)]
 #![allow(non_snake_case)]
 #![allow(dead_code)]
@@ -22,6 +23,7 @@ fn main() {
         }; 
     
    nightowl_json.WriteToJSON();
+
 }
 
 

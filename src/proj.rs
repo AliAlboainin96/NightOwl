@@ -4,6 +4,10 @@ use std::fs::File;
 use std::fs::OpenOptions;
 use std::io::prelude::*;
 
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Deserialize, Serialize)]
+
 pub struct project {
     pub project:     String,
     pub author:      String,
@@ -22,5 +26,20 @@ impl project {
         println!("Genre: {}", self.genre);
         println!("ID: {}", self.id);
 
+    }
+
+    pub fn WriteToJSON(&self) -> std::io::Result<()> {
+        
+        //serde_json::to_writer_pretty(&File::create("data.json")?, &self);
+        let File = OpenOptions::new()
+            .read(true)
+            .append(true)
+            .create(true)
+            .open("data.json")
+            .unwrap();
+            
+        serde_json::to_writer_pretty(File, &self);
+
+        Ok(())
     }
 }
