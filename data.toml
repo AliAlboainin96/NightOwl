@@ -1,0 +1,16 @@
+[projects.NightOwl]
+Project = "NightOwl"
+Author = "Ali"
+Description = "vroom vroom...."
+Language = "Rust"
+Genre = "TUI"
+ID = 5
+
+[projects.MouseEditor]
+Project = "MouseEditor"
+Author = "Ali"
+Description = "best text editor containing vim's speed and the power of emacs!"
+Language = "Cpp"
+Genre = "Text Editor"
+ID = 6
+

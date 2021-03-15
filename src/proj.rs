@@ -1,45 +1,76 @@
-// proj.rs: Manages the inputted data; Contains project struct to define and create new "projects"
-
-use std::fs::File;
-use std::fs::OpenOptions;
+// proj.rs: Manages the inputted data; Contains project struct to define 
+use std::fs;
 use std::io::prelude::*;
-
+use std::fs::File;
+use std::{collections::BTreeMap};
 use serde::{Deserialize, Serialize};
+use toml;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Default, Serialize)] 
+pub struct Projects<'param> {
+    pub projects: BTreeMap<&'param str, Project<'param>>,
+}
 
-pub struct project {
-    pub project:     String,
-    pub author:      String,
-    pub description: String,
-    pub language:    String,
-    pub genre:       String,
+#[derive(Debug, Serialize)]
+pub struct Project<'param> {
+    #[serde(rename = "Project")]
+    pub project: &'param str,
+
+    #[serde(rename = "Author")]
+    pub author:     &'param str,
+
+    #[serde(rename = "Description")]
+    pub description:  &'param str,
+
+    #[serde(rename = "Language")]
+    pub language:    &'param str,
+
+    #[serde(rename = "Genre")]
+    pub genre:       &'param str,
+
+    #[serde(rename = "ID")]
     pub id:          u32
 }
 
-impl project {
-    pub fn DisplayData(&self) { 
-        println!("Project : {}", self.project);
-        println!("Autho: {}", self.author);
-        println!("Description: {}", self.description);
-        println!("Language: {}", self.language);
-        println!("Genre: {}", self.genre);
-        println!("ID: {}", self.id);
+impl Project<'_> {
+    
+    // Takes the defined structure and pass it into the toml_buffer
 
-    }
-
-    pub fn WriteToJSON(&self) -> std::io::Result<()> {
+    pub fn WriteToFile(&self) -> std::io::Result<()> {
+        let mut buffer = Projects::default();
+        let mut File = fs::OpenOptions::new()
+                        .read(true)
+                        .append(true)
+                        .create(true)
+                        .open("data.toml")
+                        .unwrap();
         
-        //serde_json::to_writer_pretty(&File::create("data.json")?, &self);
-        let File = OpenOptions::new()
-            .read(true)
-            .append(true)
-            .create(true)
-            .open("data.json")
-            .unwrap();
-            
-        serde_json::to_writer_pretty(File, &self);
+    
+        // "buffer" will be initialized and the defined project struct will be passed to it.
 
-        Ok(())
+        buffer.projects.insert ( 
+            
+            // self.project is the main header of the toml object. eg "[project.NightOwl]"
+            self.project,
+            
+            Project {
+                project:        self.project, 
+                author:         self.author,
+                description:    self.description,
+                language:       self.language,
+                genre:          self.genre,
+                id:             self.id
+            },
+        );
+
+        // Convert the buffer data into toml based string
+        let toml_string = toml::to_string(&buffer)
+                        .expect("Could not encode TOML value");
+        
+        // Write the toml_string into File variable which contain the defined flags for appending, etc...
+        writeln!(File, "{}", toml_string)
+                        .expect("Could not write to file");
+
+       Ok(()) 
     }
 }

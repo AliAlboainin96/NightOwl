@@ -1,8 +1,0 @@
-{
-  "project": "MouseEditor",
-  "author": "Ali",
-  "description": "Project managment written in rust!",
-  "language": "Rust",
-  "genre": "TUI Application",
-  "id": 5
-}

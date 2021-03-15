@@ -3,7 +3,9 @@
 #![allow(non_snake_case)]
 #![allow(dead_code)]
 #![allow(non_camel_case_types)]
+#![allow(unused_variables)]
 
+use std::fs;
 use std::io::prelude::*;
 use std::fs::File;
 use tui::Terminal;
@@ -12,18 +14,21 @@ use tui::widgets::*;
 use tui::layout::*;
 mod proj;
 
-fn main() { 
-   let nightowl_json = proj::project {
-            project: "MouseEditor".to_string(),
-            author: "Ali".to_string(),
-            description: "Project managment written in rust!".to_string(),
-            language: "Rust".to_string(),
-            genre: "TUI Application".to_string(),
-            id: 5
-        }; 
-    
-   nightowl_json.WriteToJSON();
 
+fn main() { 
+  
+   // Now it is possible to create a new project struct and call the .WriteToFile function which will create new file
+   
+   let nightowl_project = proj::Project {
+            project: "MouseEditor",
+            author:  "Ali",
+            description:   "best text editor containing vim's speed and the power of emacs!",
+            language:   "Cpp",
+            genre:   "Text Editor",
+            id:   6
+      };
+
+      nightowl_project.WriteToFile();
 }
 
 
